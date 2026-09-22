@@ -1,6 +1,8 @@
 package com.example.learning.service;
 
 import com.example.learning.exception.UserNotFoundException;
+import com.example.learning.model.User;
+import com.example.learning.model.UserResponse;
 import com.example.learning.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 //Enables Mockito support for the test
@@ -37,5 +40,23 @@ public class UserServiceTest {
                 UserNotFoundException.class,
                 () -> userService.getUser(99L)
         );
+    }
+
+    @Test
+    void getUser_whenUserExists_returnsUserDetails() throws UserNotFoundException {
+        // Arrange
+        User user = new User("Prabhakar", "prabhakar@example.com");
+
+        when(userRepository.findById(42L))
+                .thenReturn(Optional.of(user));
+
+        // Act
+        UserResponse response = userService.getUser(42L);
+
+        // Assert
+        Assertions.assertEquals("Prabhakar", response.name());
+        Assertions.assertEquals("prabhakar@example.com", response.email());
+
+        verify(userRepository).findById(42L);
     }
 }
