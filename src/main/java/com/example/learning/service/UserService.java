@@ -108,5 +108,13 @@ public class UserService {
         }
     }
 
+    @Transactional
+    public void deleteUser(Long id) throws UserNotFoundException {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+
+        userRepository.delete(user);
+    }
+
 }
 

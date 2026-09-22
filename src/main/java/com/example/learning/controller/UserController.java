@@ -60,5 +60,13 @@ public class UserController {
         userService.demonstrateRollback(request);
     }
 
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteUser(
+            @PathVariable("userId") Long userId) throws UserNotFoundException {
+
+        userService.deleteUser(userId);
+
+        return ResponseEntity.noContent().build();
+    }
 
 }
