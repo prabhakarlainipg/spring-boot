@@ -53,4 +53,12 @@ public class UserController {
     }
 
 
+    @PostMapping("/rollback-demo")
+    public void demonstrateRollback(
+            @Valid @RequestBody CreateUserRequest request) {
+
+        userService.demonstrateRollback(request);
+    }
+
+
 }

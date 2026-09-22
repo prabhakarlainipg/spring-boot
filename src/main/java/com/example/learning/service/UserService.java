@@ -82,5 +82,21 @@ public class UserService {
                         user.getEmail()
                 ));
     }
+
+    //making a business operation succeed or fail as a unit.
+    //Imagine one operation saves a user and then performs another database update.
+    // If the second step fails, you may want to undo the first save.
+
+    //By default, Spring rolls back for unchecked exceptions (RuntimeException) and Error.
+    // Checked exceptions require an explicit rollback rule when you want the same behavior:
+    @Transactional
+    public void demonstrateRollback(CreateUserRequest request) {
+        User user = new User(request.name(), request.email());
+
+        userRepository.saveAndFlush(user);
+
+        throw new IllegalStateException("Simulated failure after saving");
+    }
+
 }
 
