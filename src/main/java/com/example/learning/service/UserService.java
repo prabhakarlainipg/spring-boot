@@ -7,8 +7,13 @@ import com.example.learning.model.User;
 import com.example.learning.model.UserResponse;
 import com.example.learning.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -59,6 +64,23 @@ public class UserService {
         );
 
 
+    }
+
+
+
+    public Page<UserResponse> getUsers(int page, int size) {
+        Pageable pageable = PageRequest.of(
+                page,
+                size,
+                Sort.by("id").ascending()
+        );
+
+        return userRepository.findAll(pageable)
+                .map(user -> new UserResponse(
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail()
+                ));
     }
 }
 

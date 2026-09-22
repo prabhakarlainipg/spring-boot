@@ -6,6 +6,7 @@ import com.example.learning.model.UserResponse;
 import com.example.learning.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,9 +39,17 @@ public class UserController {
         return userService.getUser(userId);
     }
 
-    @GetMapping
+    @GetMapping(params = "userName")
     public UserResponse getUserByName(@RequestParam("userName") String userName) throws UserNotFoundException {
         return userService.getUserByName(userName);
+    }
+
+    @GetMapping(params = "!userName")
+    public Page<UserResponse> getUsers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
+        return userService.getUsers(page, size);
     }
 
 
