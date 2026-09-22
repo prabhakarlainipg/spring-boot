@@ -1,20 +1,22 @@
 package com.example.learning.service;
 
 import com.example.learning.exception.UserNotFoundException;
+import com.example.learning.model.CreateUserRequest;
 import com.example.learning.model.User;
 import com.example.learning.model.UserResponse;
 import com.example.learning.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 //Enables Mockito support for the test
 @ExtendWith(MockitoExtension.class)
@@ -54,9 +56,41 @@ public class UserServiceTest {
         UserResponse response = userService.getUser(42L);
 
         // Assert
-        Assertions.assertEquals("Prabhakar", response.name());
-        Assertions.assertEquals("prabhakar@example.com", response.email());
+        assertEquals("Prabhakar", response.name());
+        assertEquals("prabhakar@example.com", response.email());
 
         verify(userRepository).findById(42L);
+    }
+
+
+    @Test
+    void createUser_whenRequestIsValid_savesUserAndReturnsResponse() {
+        CreateUserRequest request =
+                new CreateUserRequest("Alice", "alice@example.com");
+
+        // Represents the entity returned after persistence.
+        User savedUser = mock(User.class);
+        when(savedUser.getId()).thenReturn(10L);
+        when(savedUser.getName()).thenReturn("Alice");
+        when(savedUser.getEmail()).thenReturn("alice@example.com");
+
+        when(userRepository.save(any(User.class)))
+                .thenReturn(savedUser);
+
+        UserResponse response = userService.createUser(request);
+
+        // Inspect the actual entity passed to save().
+        ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
+        verify(userRepository).save(captor.capture());
+
+        User submittedUser = captor.getValue();
+
+        assertEquals("Alice", submittedUser.getName());
+        assertEquals("alice@example.com", submittedUser.getEmail());
+
+        // Check the response uses the saved entity.
+        assertEquals(10L, response.id());
+        assertEquals("Alice", response.name());
+        assertEquals("alice@example.com", response.email());
     }
 }
