@@ -116,5 +116,24 @@ public class UserService {
         userRepository.delete(user);
     }
 
+    //However, in our example, Hibernate does persist the changes without an explicit save() because:
+    //1. @Transactional starts the service transaction.
+    //2. findById() loads a managed entity.
+    //3. updateDetails() changes that entity’s fields.
+    //4. Hibernate’s dirty checking detects those changes and issues an UPDATE during flushing, normally before commit.
+    @Transactional
+    public UserResponse updateUser(Long id, CreateUserRequest request) throws UserNotFoundException {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+
+        user.updateDetails(request.name(), request.email());
+
+        return new UserResponse(
+                user.getId(),
+                user.getName(),
+                user.getEmail()
+        );
+    }
+
 }
 

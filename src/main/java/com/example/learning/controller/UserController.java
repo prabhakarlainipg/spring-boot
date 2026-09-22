@@ -69,4 +69,12 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{userId}")
+    public UserResponse updateUser(
+            @PathVariable("userId") Long userId,
+            @Valid @RequestBody CreateUserRequest request) throws UserNotFoundException {
+
+        return userService.updateUser(userId, request);
+    }
+
 }

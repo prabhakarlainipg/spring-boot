@@ -36,4 +36,9 @@ public class User {
     public String getEmail() {
         return this.email;
     }
+
+    public void updateDetails(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
 }
