@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,6 +30,21 @@ public class UserService {
                 savedUser.getId(),
                 savedUser.getName(),
                 savedUser.getEmail()
+        );
+    }
+
+
+    public UserResponse getUserByName(String name) throws UserNotFoundException {
+
+        List<User> users = userRepository.findByName(name);
+        //getFirst() ->
+       // Requirements:If this List is not empty,
+        // the implementation in this interface returns the result of calling get(0).
+        // Otherwise, it throws NoSuchElementException.
+        return new UserResponse(
+                users.getFirst().getId(),
+                users.getFirst().getName(),
+                users.getFirst().getEmail()
         );
     }
 

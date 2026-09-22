@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -29,6 +30,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String , String >> handleUserNotFound(UserNotFoundException exception){
         return  ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Map.of("message", exception.getMessage()));
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<Map<String , String >> handleElementNotFound(NoSuchElementException exception){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("message", "No matching record found"));
     }
 
 

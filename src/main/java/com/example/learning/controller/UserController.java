@@ -38,5 +38,10 @@ public class UserController {
         return userService.getUser(userId);
     }
 
+    @GetMapping
+    public UserResponse getUserByName(@RequestParam("userName") String userName) throws UserNotFoundException {
+        return userService.getUserByName(userName);
+    }
+
 
 }
