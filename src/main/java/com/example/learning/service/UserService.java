@@ -95,7 +95,17 @@ public class UserService {
 
         userRepository.saveAndFlush(user);
 
-        throw new IllegalStateException("Simulated failure after saving");
+      //  throw new IllegalStateException("Simulated failure after saving");
+
+        //Next: what happens if you catch the exception inside the transactional method?
+        //The transaction normally commits. The method returns successfully,
+        // so the proxy doesn’t receive the exception and apply its rollback rule.
+        try {
+            throw new IllegalStateException("Simulated failure");
+        } catch (IllegalStateException exception) {
+            System.out.println("Caught: " + exception.getMessage());
+           // throw exception; // Now the unchecked exception reaches the proxy, so the transaction rolls back.
+        }
     }
 
 }
