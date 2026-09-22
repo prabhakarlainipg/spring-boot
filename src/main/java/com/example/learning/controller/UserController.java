@@ -6,7 +6,10 @@ import com.example.learning.model.UserResponse;
 import com.example.learning.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/users")
@@ -19,15 +22,15 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping ("/{userId}")
-    public String createUser(@PathVariable String userId,
-                             @RequestParam String city,
-                             @Valid
-                             @RequestBody CreateUserRequest request){
-        return "User: " + userId
-                + ", City: " + city
-                + ", name: " + request.name()
-                + ", email: " + request.email();
+    @PostMapping
+    public ResponseEntity<UserResponse> createUser(
+            @Valid @RequestBody CreateUserRequest request) {
+
+        UserResponse createdUser = userService.createUser(request);
+
+        URI location = URI.create("/users/" + createdUser.id());
+
+        return ResponseEntity.created(location).body(createdUser);
     }
 
     @GetMapping("/{userId}")
