@@ -6,6 +6,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name="app_users")
 @Getter
@@ -36,6 +39,9 @@ public class User {
     public String getEmail() {
         return this.email;
     }
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders ;
 
     public void updateDetails(String name, String email) {
         this.name = name;
