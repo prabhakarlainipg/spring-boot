@@ -2,6 +2,7 @@ package com.example.learning;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 //@SpringBootConfiguration - marks the class as application configuration.
 //@EnableAutoConfiguration- enables Boot to configure features based on your application’s dependencies and settings.
@@ -13,6 +14,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //}) -> IY YOU WANT TO SCAN IN OTHER PACKAGES
 
 @SpringBootApplication
+
+//Register ConfigurationProperties
+@ConfigurationPropertiesScan
 public class SpringLearningApplication {
 
 	public static void main(String[] args) {
