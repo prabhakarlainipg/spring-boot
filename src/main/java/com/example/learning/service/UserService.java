@@ -104,7 +104,7 @@ public class UserService {
             throw new IllegalStateException("Simulated failure");
         } catch (IllegalStateException exception) {
             System.out.println("Caught: " + exception.getMessage());
-           // throw exception; // Now the unchecked exception reaches the proxy, so the transaction rolls back.
+            throw exception; // Now the unchecked exception reaches the proxy, so the transaction rolls back.
         }
     }
 
