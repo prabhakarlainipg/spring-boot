@@ -7,7 +7,11 @@ package com.core.java;
 public class Demo {
 
     public static void main(String[] args) {
-        Calculator lambdaAddition = (first, second) -> first + second;
+        Calculator lambdaAddition = Integer::sum;
         System.out.println(lambdaAddition.calculate(10, 20));    // 30
+        Calculator lambdaMultiply = (first, second) -> first * second;
+        System.out.println(lambdaMultiply.calculate(10, 20));
+        Calculator lambdaMax = Math::max;
+        System.out.println(lambdaMax.calculate(10, 20));
     }
 }

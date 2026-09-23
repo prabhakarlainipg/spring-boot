@@ -1,4 +1,4 @@
-package com.core.java;
+package com.core.java.java8;
 
 interface A {
     default void show() {
