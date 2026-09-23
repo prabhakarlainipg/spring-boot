@@ -1,9 +1,6 @@
 package com.core.java.java8;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 
 public class FunctionalInterfaces {
@@ -29,5 +26,13 @@ public class FunctionalInterfaces {
         Supplier<String> defaultName = () -> "Guest";
 
         System.out.println(defaultName.get()); // Guest
+
+        UnaryOperator<Integer> sq =  n-> n*n;
+
+        System.out.println(sq.apply(4));//16
+
+        BinaryOperator<Integer> add = (a,b)->a+b;
+        System.out.println(add.apply(4,5)); //9
+
     }
 }
