@@ -1,4 +1,4 @@
-package com.core.java;
+package com.core.java.java8;
 
 @FunctionalInterface
  interface Calculator {
