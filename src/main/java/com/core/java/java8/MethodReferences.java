@@ -22,7 +22,7 @@ public class MethodReferences {
 
     }
 
-    private static Employee createEmployee(int id, String name, int salary, String city, String dept) {
+    static Employee createEmployee(int id, String name, int salary, String city, String dept) {
         Employee e = new Employee();
         e.setId(id);
         e.setName(name);
